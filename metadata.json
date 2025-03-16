@@ -1,0 +1,9 @@
+{
+    "name": "chatMi",
+    "creator": "Arrow",
+    "description": "wow",
+    "version": "1.0.0",
+    "entry": "index.js",
+    "requires": [
+    ]
+}
