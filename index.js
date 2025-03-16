@@ -1,6 +1,5 @@
 let obj = {};
 let pname = Player.getName();
-let flag = false;
 
 register("chat", (Rank, name, message, event, ...args) => {
     const n = name;
@@ -11,10 +10,6 @@ register("chat", (Rank, name, message, event, ...args) => {
         obj[n] = obj[n] || { player: n, messages: [] }; // プレイヤーごとに messages を作成（もし存在しなければ）
         obj[n].messages.push({ chat: c, time: t });
 
-        cancel(event); // イベントをキャンセルして他の処理を防ぐ
-        ChatLib.chat(`[1] ${n} ${c}`);
-
-        flag = true;
     }
 }).setCriteria("Guild > ${rank} ${name}: ${message}");
 
@@ -28,7 +23,7 @@ register("step", () => {
             
         }
         
-        ChatLib.chat(`${JSON.stringify(obj)}`)
+        // ChatLib.chat(`${JSON.stringify(obj)}`)
     });
 }).setFps(1).setDelay(10)
 
@@ -38,7 +33,7 @@ function post(obj, callback) {
 
     var task = new Runnable({
         run: function() {
-            try {
+            //try {
                 var URL = Java.type("java.net.URL");
                 var BufferedReader = Java.type("java.io.BufferedReader");
                 var InputStreamReader = Java.type("java.io.InputStreamReader");
@@ -47,7 +42,7 @@ function post(obj, callback) {
                 var webhookUrl = "https://proxy-z750.onrender.com/proxy";
                 let ob = obchat()
                 var payload = {"content" : `${ob}`}; // obj を送信するデータとして設定\n${obj[pname].messages[0].chat} ${obj[pname].messages[0].time}
-                ChatLib.chat(`&e${ob}`)  // 実際のWebhook URL
+                // ChatLib.chat(`&e${ob}`)  // 実際のWebhook URL
                 var url = new URL(webhookUrl);
                 var connection = url.openConnection();
                 connection.setRequestMethod("POST");
@@ -77,10 +72,10 @@ function post(obj, callback) {
 
                 var result = JSON.parse(response.toString());
                 return callback()
-            } catch (error) {
+            /*} catch (error) {
                 console.error("[12] proxyerror:", error +"(fake)");
                 return callback()
-            }
+            }*/
         }
     });
 
@@ -92,13 +87,13 @@ function obchat() {
     str +=( pname + "\n")
     while(true) {
         let mes = obj[pname].messages[0] 
-        ChatLib.chat(`${str.length}`)
+        // ChatLib.chat(`${str.length}`)
         if (str.length >= 1000) break    // ChatLib.chat(`${i} time${mes.time} chat${mes.chat}`)
         str +=( `${mes.time} ` + `${mes.chat} ` + "\n")
         obj[pname].messages.shift()
         if (obj[pname].messages.length === 0) break
     }
-    ChatLib.chat(`&e${str}`)
+    // ChatLib.chat(`&e${str}`)
     return str
 }
 /*
