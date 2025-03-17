@@ -1,5 +1,8 @@
-// git add *
-// git commit -m ""
+/*
+git add *
+git commit -m ""
+git push
+*/
 let obj = {};
 let pname = Player.getName();
 
