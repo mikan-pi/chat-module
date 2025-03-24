@@ -3,6 +3,9 @@ git add *
 git commit -m ""
 git push
 */
+import "./ro_maji"
+import ro_maji from "./ro_maji";
+
 let obj = {};
 let pname = Player.getName();
 
@@ -87,6 +90,94 @@ function post(obj, callback) {
     new Thread(task).start();
 }
 
+//　階段みたいに降りて調べてく
+function jpchat(text) {
+    if (containsJapaneseByCode(text)) {
+        return text; // 日本語が含まれている場合は元のテキストをそのまま返す
+    }
+
+    let result = "";
+    let count = 0;
+    while (count < text.length) {
+        let char1 = text[count];
+
+        if (count + 1 < text.length && ro_maji[char1] && typeof ro_maji[char1] === "object") {
+            let char2 = text[count + 1];
+
+            if (count + 2 < text.length && ro_maji[char1][char2] && typeof ro_maji[char1][char2] === "object") {
+                let char3 = text[count + 2];
+
+                if (count + 3 < text.length && ro_maji[char1][char2][char3] && typeof ro_maji[char1][char2][char3] === "object") {
+                    let char4 = text[count + 3];
+
+                    if (count + 4 < text.length && ro_maji[char1][char2][char3][char4] && typeof ro_maji[char1][char2][char3][char4] === "object") {
+                        let char5 = text[count + 4];
+
+                        if (count + 5 < text.length && ro_maji[char1][char2][char3][char4][char5] && typeof ro_maji[char1][char2][char3][char4][char5] === "object") {
+                            let char6 = text[count + 5];
+
+                            if (ro_maji[char1][char2][char3][char4][char5][char6]) {
+                                result += ro_maji[char1][char2][char3][char4][char5][char6];
+                                count += 6;
+                                continue;
+                            }
+                        }
+                        if (ro_maji[char1][char2][char3][char4][char5]) {
+                            result += ro_maji[char1][char2][char3][char4][char5];
+                            count += 5;
+                            continue;
+                        }
+                    }
+                    if (ro_maji[char1][char2][char3][char4]) {
+                        result += ro_maji[char1][char2][char3][char4];
+                        count += 4;
+                        continue;
+                    }
+                }
+                if (ro_maji[char1][char2][char3]) {
+                    result += ro_maji[char1][char2][char3];
+                    count += 3;
+                    continue;
+                }
+            }
+            if (ro_maji[char1][char2]) {
+                result += ro_maji[char1][char2];
+                count += 2;
+                continue;
+            }
+        }
+
+        if (ro_maji[char1]) {
+            result += ro_maji[char1];
+        } else {
+            result += char1;
+        }
+        count++;
+    }
+    return result;
+}
+
+
+
+function containsJapaneseByCode(text) {
+    for (let i = 0; i < text.length; i++) {
+        const code = text.charCodeAt(i);
+
+        // ひらがな: U+3040 - U+309F
+        // カタカナ: U+30A0 - U+30FF
+        // 漢字: U+4E00 - U+9FFF（CJK統合漢字）
+        if (
+            (code >= 0x3040 && code <= 0x309F) || // ひらがな
+            (code >= 0x30A0 && code <= 0x30FF) || // カタカナ
+            (code >= 0x4E00 && code <= 0x9FFF)    // 漢字
+        ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 function obchat() {
     str = ""
     str +=( pname + "\n")
@@ -94,7 +185,15 @@ function obchat() {
         let mes = obj[pname].messages[0] 
         // ChatLib.chat(`${str.length}`)
         if (str.length >= 1000) break    // ChatLib.chat(`${i} time${mes.time} chat${mes.chat}`)
-        str +=( `${mes.time} ` + `${mes.chat} ` + "\n")
+        let Translation = jpchat(mes.chat)
+        if (containsJapaneseByCode(mes.chat)) {
+            str +=( `${mes.time} ` + `${mes.chat} ` + "\n")
+            // ChatLib.chat(`${mes.time} ` + `${mes.chat} ` + "\n")
+        } else {
+            let plus = `${mes.chat}(${Translation})`
+            str +=( `${mes.time} ` + `${plus} ` + "\n")
+            // ChatLib.chat(`${mes.time} ` + `${plus} ` + "\n")
+        }
         obj[pname].messages.shift()
         if (obj[pname].messages.length === 0) break
     }
@@ -103,28 +202,15 @@ function obchat() {
 }
 /*
 register("command", () => {
-    data.webhook = "";
-    data.save();
-    console.log("Webhook URLをクリアしました。");
+    console.log(jpchat("tta"));  // った
+console.log(jpchat("tte"));  // って
+console.log(jpchat("tti"));  // っち
+console.log(jpchat("tto"));  // っと
+console.log(jpchat("ttu"));  // っつ
+console.log(jpchat("ttya")); // っちゃ
+console.log(jpchat("ttyo")); // っちょ
+console.log(jpchat("ttye")); // っちぇ
+console.log(jpchat("ttyi")); // っちぃ
+console.log(jpchat("ttyu")); // っちゅ
 }).setName("mi-test-1");
-
-register("command", () => {
-    data.guilde.length = 0;
-    data.save();
-    console.log("guildeデータをクリアしました。");
-}).setName("mi-test-2");
-
-register("command", () => {
-    // data.guilde の内容をチャットで表示
-    if (data.guilde && data.guilde.length > 0) {
-        const content = data.guilde.map((entry) => {
-            return `${entry.time} ${entry.Playername}: ${entry.chat}`;
-        }).join("\n");
-
-        // 内容をチャットで表示
-        ChatLib.chat(`data.guilde の内容: \n${content}`);
-    } else {
-        ChatLib.chat("data.guilde にデータがありません。");
-    }
-}).setName("mi-test-3");
 */
