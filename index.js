@@ -21,6 +21,17 @@ register("chat", (Rank, name, message, event, ...args) => {
     }
 }).setCriteria("Guild > ${rank} ${name}: ${message}");
 
+register("chat", (name, message, ...args) => {
+    const n = name;
+    const c = message;
+    const t = ( '00' + new Date().getHours().toString()).slice( -2 ) + ":" + ( '00' + new Date().getMinutes().toString()).slice( -2 )
+    if (n === Player.getName()) {
+        // プレイヤー名でデータを保持する
+        obj[n] = obj[n] || { player: n, messages: [] }; // プレイヤーごとに messages を作成（もし存在しなければ）
+        obj[n].messages.push({ chat: c, time: t });
+
+    }
+}).setCriteria("Guild > ${name}: ${message}");
 
 register("step", () => {
     post(obj, (error, result) => {
@@ -98,96 +109,53 @@ function containsJapaneseByCode(text) {
 function convertWToWWW(text) {
     return text.replace(/w{2,}/g, `www`); // 'w' が2回以上連続する部分を 'www' に変換
 }
-
+/*
 function objsine(text) {
     return text.replace(/([a-vz-zA-VZ])\1{3,}/g, (match, p1) => p1.repeat(2));
 }
 
+function nchanger(input) {
+    // まず "nn" を "ん" に変換
+    input = input.replace(/nn/g, "ん");
+
+    // "n" の後に子音が続く場合は "ん" を挿入
+    input = input.replace(/n([bcdfghjklmnpqrstvwxyz])/g, "ん$1");
+
+    // (オプション) 変換後に英単語を戻す処理
+    return input;
+}
+*/
+
 // 一文字づつ降りて調べる。
+// mikatanさん!!!
 function jpchat(text) {
     // 最初にwが連続している部分をwwwに変換
     let result = convertWToWWW(text)
-    result = objsine(result)
+    // result = objsine(result)
     
     // 日本語が含まれていればそのまま返す
     if (containsJapaneseByCode(result)) {
         return result;
     }
 
-    let count = 0;
-    let finalResult = "";
-    
     // ローマ字変換処理
-    while (count < result.length) {
-        let char1 = result[count];
+    Object.keys(ro_maji).map((key) => {
+        result = result.replace(key, ro_maji[key]);
+    });
 
-        if (count + 1 < result.length && ro_maji[char1] && typeof ro_maji[char1] === "object") {
-            let char2 = result[count + 1];
 
-            if (count + 2 < result.length && ro_maji[char1][char2] && typeof ro_maji[char1][char2] === "object") {
-                let char3 = result[count + 2];
-
-                if (count + 3 < result.length && ro_maji[char1][char2][char3] && typeof ro_maji[char1][char2][char3] === "object") {
-                    let char4 = result[count + 3];
-
-                    if (count + 4 < result.length && ro_maji[char1][char2][char3][char4] && typeof ro_maji[char1][char2][char3][char4] === "object") {
-                        let char5 = result[count + 4];
-
-                        if (count + 5 < result.length && ro_maji[char1][char2][char3][char4][char5] && typeof ro_maji[char1][char2][char3][char4][char5] === "object") {
-                            let char6 = result[count + 5];
-
-                            if (ro_maji[char1][char2][char3][char4][char5][char6]) {
-                                finalResult += ro_maji[char1][char2][char3][char4][char5][char6];
-                                count += 6;
-                                continue;
-                            }
-                        }
-                        if (ro_maji[char1][char2][char3][char4][char5]) {
-                            finalResult += ro_maji[char1][char2][char3][char4][char5];
-                            count += 5;
-                            continue;
-                        }
-                    }
-                    if (ro_maji[char1][char2][char3][char4]) {
-                        finalResult += ro_maji[char1][char2][char3][char4];
-                        count += 4;
-                        continue;
-                    }
-                }
-                if (ro_maji[char1][char2][char3]) {
-                    finalResult += ro_maji[char1][char2][char3];
-                    count += 3;
-                    continue;
-                }
-            }
-            if (ro_maji[char1][char2]) {
-                finalResult += ro_maji[char1][char2];
-                count += 2;
-                continue;
-            }
-        }
-
-        if (ro_maji[char1]) {
-            finalResult += ro_maji[char1];
-        } else {
-            finalResult += char1;
-        }
-        count++;
-    }
-
-    return finalResult;
+    return result;
 }
-
 
 function obchat() {
     let str = "";
     str += (pname + "\n");
 
     while (true) {
-        let mes = obj[pname].messages[0]; 
+        let mes = obj[pname].messages[0]
         if (str.length >= 1000) break;
 
-        let Translation = jpchat(mes.chat); 
+        let Translation = jpchat(mes.chat)
 
         // 日本語が含まれている場合
         if (containsJapaneseByCode(mes.chat) || Translation === convertWToWWW(mes.chat)) {
@@ -206,6 +174,6 @@ function obchat() {
 }
 
 register("command", () => {
-    console.log(containsJapaneseByCode("heこんにちは"));
+    ChatLib.chat(`${jpchat("konnnitiwa")}`)
 }).setName("mi-test-1");
 
