@@ -126,6 +126,7 @@ function nchanger(input) {
 }
 */
 
+const ro_maji_table = Object.keys(ro_maji).sort((a, b) => b.length - a.length);
 // 一文字づつ降りて調べる。
 // mikatanさん!!!
 function jpchat(text) {
@@ -139,7 +140,7 @@ function jpchat(text) {
     }
 
     // ローマ字変換処理
-    Object.keys(ro_maji).map((key) => {
+    ro_maji_table.forEach((key) => {
         result = result.replaceAll(key, ro_maji[key]);
     });
 
@@ -174,6 +175,22 @@ function obchat() {
 }
 
 register("command", () => {
-    ChatLib.chat(`${jpchat("konnnitiwa")}`)
+    ChatLib.chat(`test: ${jpchat("konnnitiwa")}`)
+    ChatLib.chat(`test: ${jpchat("nnnnnnnnn")}`)
+    ChatLib.chat(`test: ${jpchat("early")}`)
+    ChatLib.chat(`test: ${jpchat("earnly")}`)
+    ChatLib.chat(`test: ${jpchat("earnlya")}`)
+    ChatLib.chat(`test: ${jpchat("udon")}`)
+    ChatLib.chat(`test: ${jpchat("readn")}`)
+    ChatLib.chat(`test: ${jpchat("ndaer")}`)
+    ChatLib.chat(`test: ${jpchat("nnai")}`)
+    ChatLib.chat(`test: ${jpchat("nnnai")}`)
+    ChatLib.chat(`test: ${jpchat("www")}`)
+    ChatLib.chat(`test: ${jpchat("wwwwww")}`)
+    ChatLib.chat(`test: ${jpchat("ww")}`)
+    ChatLib.chat(`test: ${jpchat("w")}`)
+    ChatLib.chat(`test: ${jpchat("あwaa")}`)
+    ChatLib.chat(`test: ${jpchat("dameppoi")}`)
+    ChatLib.chat(`test: ${jpchat("dameppoi")}`)
 }).setName("mi-test-1");
 
