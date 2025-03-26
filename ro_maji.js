@@ -2,10 +2,7 @@
 
 export  default {
     tt: "っt",
-    /*
-    ttya: "っちゃ", ttyi: "っちぃ", ttyu: "っちゅ", ttye: "っちぇ", ttyo: "ちょ",
-    ttha: "ってゃ", tthi: "ってぃ", tthu: "ってゅ", tthe: "ってぇ", ttho: "ってょ",
-    */
+
     nnn: "んn", nn: "ん", nk: "んk", ng: "んg", ns: "んs", nz: "んz",
     nt: "んt", nd: "んd", nh: "んh", nb: "んb", np: "んp", nm: "んm",
     ny: "んy", nr: "んr", nw: "んw", nj: "んj", nc: "んc", nl: "んl",
@@ -13,12 +10,7 @@ export  default {
 
     kk: "っk", ss: "っs", tt: "っt", hh: "っh", mm: "っm", yy: "っy", rr: "っr", ww: "っw",
     pp: "っp", gg: "っg", jj: "っj", cc: "っc", bb: "っb", xx: "っx", ll: "っl", zz: "っz",
-
-    /*
-    tya: "ちゃ", tyi: "ちぃ", tyu: "ちゅ", tye: "ちぇ", tyo: "ちょ",
-    tha: "てゃ", thi: "てぃ", thu: "てゅ", the: "てぇ", tho: "てょ",
-    tta: "った", tti: "っち", ttu: "っつ", tte: "って", tto: "っと",
-    */
+    vv: "っv", ff: "っf",
 
     kya: "きゃ", kyu: "きゅ", kyo: "きょ",
     gya: "ぎゃ", gyu: "ぎゅ", gyo: "ぎょ",
@@ -39,6 +31,7 @@ export  default {
     xtsu: "っ", xtu: "っ", xya: "ゃ", xyu: "ゅ", xyo: "ょ",
     ltsu: "っ", ltu: "っ", lya: "ゃ", lyu: "ゅ", lyo: "ょ",
 
+    va: "ヴぁ", vi: "ヴぃ", vu: "ヴぅ", ve: "ヴぇ", vo: "ヴぉ",
     ka: "か", ki: "き", ku: "く", ke: "け", ko: "こ",
     ga: "が", gi: "ぎ", gu: "ぐ", ge: "げ", go: "ご",
     sa: "さ", shi: "し", si: "し", su: "す", se: "せ", so: "そ",
@@ -53,9 +46,6 @@ export  default {
     ya: "や", yu: "ゆ", yo: "よ",
     ra: "ら", ri: "り", ru: "る", re: "れ", ro: "ろ",
     wa: "わ", wo: "を", 
-    
-    
-
 
     a: "あ", i: "い", u: "う", e: "え", o: "お", n: "ん"
 }
