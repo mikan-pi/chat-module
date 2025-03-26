@@ -1,14 +1,43 @@
 // original https://github.com/shikatan0/romaji-to-hira-js/blob/master/src/romaji-hira-table.ts
 
-export  default {    
+export  default {
+    tt: "っt",
+    /*
+    ttya: "っちゃ", ttyi: "っちぃ", ttyu: "っちゅ", ttye: "っちぇ", ttyo: "ちょ",
+    ttha: "ってゃ", tthi: "ってぃ", tthu: "ってゅ", tthe: "ってぇ", ttho: "ってょ",
+    */
     nnn: "んn", nn: "ん", nk: "んk", ng: "んg", ns: "んs", nz: "んz",
     nt: "んt", nd: "んd", nh: "んh", nb: "んb", np: "んp", nm: "んm",
     ny: "んy", nr: "んr", nw: "んw", nj: "んj", nc: "んc", nl: "んl",
     nx: "んx", nf: "んf",
 
+    kk: "っk", ss: "っs", tt: "っt", hh: "っh", mm: "っm", yy: "っy", rr: "っr", ww: "っw",
+    pp: "っp", gg: "っg", jj: "っj", cc: "っc", bb: "っb", xx: "っx", ll: "っl", zz: "っz",
+
+    /*
+    tya: "ちゃ", tyi: "ちぃ", tyu: "ちゅ", tye: "ちぇ", tyo: "ちょ",
+    tha: "てゃ", thi: "てぃ", thu: "てゅ", the: "てぇ", tho: "てょ",
     tta: "った", tti: "っち", ttu: "っつ", tte: "って", tto: "っと",
-    ttya: "っちゃ", ttyi: "っちぃ", ttyu: "っちゅ", ttye: "っちぇ", ttyo: "ちょ",
-    ttha: "ってゃ", tthi: "ってぃ", tthu: "ってゅ", tthe: "ってぇ", ttho: "ってょ",
+    */
+
+    kya: "きゃ", kyu: "きゅ", kyo: "きょ",
+    gya: "ぎゃ", gyu: "ぎゅ", gyo: "ぎょ",
+    sha: "しゃ", shu: "しゅ", sho: "しょ",
+    sya: "しゃ", syu: "しゅ", syo: "しょ",
+    ja: "じゃ", ju: "じゅ", jo: "じょ",
+    jya: "じゃ", jyu: "じゅ", jyo: "じょ",
+    cha: "ちゃ", chu: "ちゅ", cho: "ちょ",
+    cya: "ちゃ", cyu: "ちゅ", cyo: "ちょ",
+    tya: "ちゃ", tyu: "ちゅ", tyo: "ちょ",
+    nya: "にゃ", nyu: "にゅ", nyo: "にょ",
+    hya: "ひゃ", hyu: "ひゅ", hyo: "ひょ",
+    bya: "びゃ", byu: "びゅ", byo: "びょ",
+    pya: "ぴゃ", pyu: "ぴゅ", pyo: "ぴょ",
+    mya: "みゃ", myu: "みゅ", myo: "みょ",
+    rya: "りゃ", ryu: "りゅ", ryo: "りょ",
+
+    xtsu: "っ", xtu: "っ", xya: "ゃ", xyu: "ゅ", xyo: "ょ",
+    ltsu: "っ", ltu: "っ", lya: "ゃ", lyu: "ゅ", lyo: "ょ",
 
     ka: "か", ki: "き", ku: "く", ke: "け", ko: "こ",
     ga: "が", gi: "ぎ", gu: "ぐ", ge: "げ", go: "ご",
@@ -25,23 +54,8 @@ export  default {
     ra: "ら", ri: "り", ru: "る", re: "れ", ro: "ろ",
     wa: "わ", wo: "を", 
     
-    kya: "きゃ", kyu: "きゅ", kyo: "きょ",
-    gya: "ぎゃ", gyu: "ぎゅ", gyo: "ぎょ",
-    sha: "しゃ", shu: "しゅ", sho: "しょ",
-    sya: "しゃ", syu: "しゅ", syo: "しょ",
-    ja: "じゃ", ju: "じゅ", jo: "じょ",
-    jya: "じゃ", jyu: "じゅ", jyo: "じょ",
-    cha: "ちゃ", chu: "ちゅ", cho: "ちょ",
-    cya: "ちゃ", cyu: "ちゅ", cyo: "ちょ",
-    nya: "にゃ", nyu: "にゅ", nyo: "にょ",
-    hya: "ひゃ", hyu: "ひゅ", hyo: "ひょ",
-    bya: "びゃ", byu: "びゅ", byo: "びょ",
-    pya: "ぴゃ", pyu: "ぴゅ", pyo: "ぴょ",
-    mya: "みゃ", myu: "みゅ", myo: "みょ",
-    rya: "りゃ", ryu: "りゅ", ryo: "りょ",
     
-    xtsu: "っ", xtu: "っ", xya: "ゃ", xyu: "ゅ", xyo: "ょ",
-    ltsu: "っ", ltu: "っ", lya: "ゃ", lyu: "ゅ", lyo: "ょ",
+
 
     a: "あ", i: "い", u: "う", e: "え", o: "お", n: "ん"
 }

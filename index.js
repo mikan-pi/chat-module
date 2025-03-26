@@ -140,7 +140,7 @@ function jpchat(text) {
 
     // ローマ字変換処理
     Object.keys(ro_maji).map((key) => {
-        result = result.replace(key, ro_maji[key]);
+        result = result.replaceAll(key, ro_maji[key]);
     });
 
 
