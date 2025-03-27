@@ -130,6 +130,10 @@ const ro_maji_table = Object.keys(ro_maji).sort((a, b) => b.length - a.length);
 // 一文字づつ降りて調べる。
 // mikatanさん!!!
 function jpchat(text) {
+    // 全てがwで構成されている場合に限り例外return
+    if (text.split("").every((char) => char === "w")) {
+        return text;
+    }
     // 最初にwが連続している部分をwwwに変換
     let result = convertWToWWW(text)
     // result = objsine(result)
