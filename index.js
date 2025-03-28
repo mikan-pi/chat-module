@@ -110,6 +110,34 @@ function containsJapaneseByCode(text) {
 function convertWToWWW(text) {
     return text.replace(/w{2,}/g, `www`); // 'w' が2回以上連続する部分を 'www' に変換
 }
+
+function removew(text) {
+    let wcount = 0
+    for (let i = text.length - 1; i >= 0; i--) {
+        if (text.charAt(i) === "w") {
+            wcount++
+        } else {
+            break
+        }
+    }
+
+    text = text.slice(0, text.length - wcount)
+    return text
+}
+
+function countedw(text) {
+    let wcount = 0
+    for (let i = text.length - 1; i >= 0; i--) {
+        if (text.charAt(i) === "w") {
+            wcount++
+        } else {
+            break
+        }
+    }
+
+    text = text.slice(0, text.length - wcount)
+    return wcount
+}
 /*
 function objsine(text) {
     return text.replace(/([a-vz-zA-VZ])\1{3,}/g, (match, p1) => p1.repeat(2));
@@ -135,10 +163,16 @@ function jpchat(text) {
     if (text.split("").every((char) => char === "w")) {
         return text;
     }
+
+    let wcount = countedw(text)
+    let result = removew(text)
+
+    /* ww: っw にしたいため使わないです。
     // 最初にwが連続している部分をwwwに変換
-    let result = convertWToWWW(text)
+    result = convertWToWWW(result)
     // result = objsine(result)
-    
+    */
+
     // 日本語が含まれていればそのまま返す
     if (containsJapaneseByCode(result)) {
         return result;
@@ -148,8 +182,9 @@ function jpchat(text) {
     ro_maji_table.forEach((key) => {
         result = result.replaceAll(key, ro_maji[key]);
     });
+    result += "w".repeat(wcount)
 
-    return result;
+    return result
 
 }
 
