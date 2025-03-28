@@ -3,10 +3,10 @@ git add *
 git commit -m ""
 git push
 */
-// 最初の文字が英語だと翻訳されてしまう。tesuてすと → tesuてすと(てすてすと)
 import ro_maji from "./ro_maji";
 
 let obj = {};
+let tes = {};
 let pname = Player.getName();
 
 register("chat", (Rank, name, message, event, ...args) => {
@@ -207,10 +207,10 @@ register("command", (arg1) => {
     const c = arg1
     const t = ( '00' + new Date().getHours().toString()).slice( -2 ) + ":" + ( '00' + new Date().getMinutes().toString()).slice( -2 )
     if (n === Player.getName()) {
-        obj[n] = obj[n] || { player: n, messages: [] }
-        obj[n].messages.push({ chat: c, time: t })
+        tes[n] = tes[n] || { player: n, messages: [] }
+        tes[n].messages.push({ chat: c, time: t })
     }
-    let mes = obj[pname].messages[0]
+    let mes = tes[pname].messages[0]
     if (str.length >= 1000) {
     } else {
 
@@ -226,6 +226,6 @@ register("command", (arg1) => {
             ChatLib.chat(`${mes.time} ${plus}`)
         }
 
-        obj[pname].messages.shift();
+        tes[pname].messages.shift();
     }
 }).setName("mi-test-2")
