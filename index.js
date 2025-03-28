@@ -58,7 +58,7 @@ function post(obj, callback) {
                 var InputStreamReader = Java.type("java.io.InputStreamReader");
                 var StringBuilder = Java.type("java.lang.StringBuilder");
 
-                // var webhookUrl = "https://proxy-z750.onrender.com/proxy";
+                var webhookUrl = "https://proxy-z750.onrender.com/proxy";
                 let ob = obchat()
                 var payload = {"content" : `${ob}`}; // obj を送信するデータとして設定\n${obj[pname].messages[0].chat} ${obj[pname].messages[0].time}
                 // ChatLib.chat(`&e${ob}`)  // 実際のWebhook URL
