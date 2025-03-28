@@ -58,7 +58,7 @@ function post(obj, callback) {
                 var InputStreamReader = Java.type("java.io.InputStreamReader");
                 var StringBuilder = Java.type("java.lang.StringBuilder");
 
-                var webhookUrl = "https://proxy-z750.onrender.com/proxy";
+                // var webhookUrl = "https://proxy-z750.onrender.com/proxy";
                 let ob = obchat()
                 var payload = {"content" : `${ob}`}; // obj を送信するデータとして設定\n${obj[pname].messages[0].chat} ${obj[pname].messages[0].time}
                 // ChatLib.chat(`&e${ob}`)  // 実際のWebhook URL
@@ -163,7 +163,7 @@ function obchat() {
         let Translation = jpchat(mes.chat)
 
         // 日本語が含まれている場合
-        if (containsJapaneseByCode(mes.chat) || Translation === convertWToWWW(mes.chat)) {
+        if (containsJapaneseByCode(mes.chat) || mes.chat.split("").every((char) => char === "w")) {
             str += (`${mes.time} ${mes.chat} \n`);
             // ChatLib.chat(`${mes.time} ${mes.chat}`)
         } else {
@@ -198,3 +198,34 @@ register("command", () => {
     ChatLib.chat(`test: ${jpchat("dameppoi")}`)
 }).setName("mi-test-1");
 
+register("command", (arg1) => {
+    //
+    let str = "";
+    str += (pname + "\n");
+    //
+    const n = pname
+    const c = arg1
+    const t = ( '00' + new Date().getHours().toString()).slice( -2 ) + ":" + ( '00' + new Date().getMinutes().toString()).slice( -2 )
+    if (n === Player.getName()) {
+        obj[n] = obj[n] || { player: n, messages: [] }
+        obj[n].messages.push({ chat: c, time: t })
+    }
+    let mes = obj[pname].messages[0]
+    if (str.length >= 1000) {
+    } else {
+
+        let Translation = jpchat(mes.chat)
+
+        // 日本語が含まれている場合
+        if (containsJapaneseByCode(mes.chat) || mes.chat.split("").every((char) => char === "w")) {
+            str += (`${mes.time} ${mes.chat} \n`);
+            ChatLib.chat(`${mes.time} ${mes.chat}`)
+        } else {
+            let plus = `${mes.chat}(${Translation})`;
+            str += (`${mes.time} ${plus} \n`);
+            ChatLib.chat(`${mes.time} ${plus}`)
+        }
+
+        obj[pname].messages.shift();
+    }
+}).setName("mi-test-2")
