@@ -149,8 +149,8 @@ function jpchat(text) {
         result = result.replaceAll(key, ro_maji[key]);
     });
 
-
     return result;
+
 }
 
 function obchat() {
@@ -162,7 +162,7 @@ function obchat() {
         if (str.length >= 1000) break;
 
         let Translation = jpchat(mes.chat)
-
+        
         // 日本語が含まれている場合
         if (containsJapaneseByCode(mes.chat) || mes.chat.split("").every((char) => char === "w")) {
             str += (`${mes.time} ${mes.chat} \n`);
@@ -199,13 +199,13 @@ register("command", () => {
     ChatLib.chat(`test: ${jpchat("dameppoi")}`)
 }).setName("mi-test-1");
 
-register("command", (arg1) => {
+register("command", (...args) => {
     //
     let str = "";
     str += (Player.getName() + "\n");
     //
     const n = Player.getName()
-    const c = arg1
+    const c = args.join(" ")
     const t = ( '00' + new Date().getHours().toString()).slice( -2 ) + ":" + ( '00' + new Date().getMinutes().toString()).slice( -2 )
     if (n === Player.getName()) {
         tes[n] = tes[n] || { player: n, messages: [] }
