@@ -155,7 +155,8 @@ function nchanger(input) {
 }
 */
 
-const ro_maji_table = Object.keys(ro_maji).sort((a, b) => b.length - a.length);
+const ro_maji_table = Object.keys(ro_maji.special).concat(Object.keys(ro_maji.normal).sort((a, b) => b.length - a.length));
+// console.log(JSON.stringify(ro_maji_table))
 // 一文字づつ降りて調べる。
 // mikatanさん!!!
 function jpchat(text) {
@@ -180,7 +181,7 @@ function jpchat(text) {
 
     // ローマ字変換処理
     ro_maji_table.forEach((key) => {
-        result = result.replaceAll(key, ro_maji[key]);
+        result = result.replaceAll(key, ro_maji.all[key]);
     });
     result += "w".repeat(wcount)
 
