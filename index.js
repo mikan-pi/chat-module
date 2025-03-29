@@ -108,7 +108,7 @@ function containsJapaneseByCode(text) {
 }
 
 function convertWToWWW(text) {
-    return text.replace(/w{2,}/g, `www`); // 'w' が2回以上連続する部分を 'www' に変換
+    return text.replace(/(w{2,}|ｗ{2,})/g, `www`); // 'w' が2回以上連続する部分を 'www' に変換
 }
 
 function removew(text) {
@@ -161,8 +161,8 @@ const ro_maji_table = Object.keys(ro_maji.special).concat(Object.keys(ro_maji.no
 // mikatanさん!!!
 function jpchat(text) {
     // 全てがwで構成されている場合に限り例外return
-    if (text.split("").every((char) => char === "w")) {
-        return text;
+    if (text.split("").every((char) => char === "w" || char === "ｗ")) {
+        return convertWToWWW(text)
     }
 
     let wcount = countedw(text)
@@ -200,8 +200,8 @@ function obchat() {
         let Translation = jpchat(mes.chat)
         
         // 日本語が含まれている場合
-        if (containsJapaneseByCode(mes.chat) || mes.chat.split("").every((char) => char === "w")) {
-            str += (`${mes.time} ${mes.chat} \n`);
+        if (containsJapaneseByCode(mes.chat) || mes.chat.split("").every((char) => char === "w" || char === "ｗ")) {
+            str += (`${mes.time} ${Translation} \n`);
             // ChatLib.chat(`${mes.time} ${mes.chat}`)
         } else {
             let plus = `${mes.chat}(${Translation})`;
@@ -254,9 +254,9 @@ register("command", (...args) => {
         let Translation = jpchat(mes.chat)
 
         // 日本語が含まれている場合
-        if (containsJapaneseByCode(mes.chat) || mes.chat.split("").every((char) => char === "w")) {
-            str += (`${mes.time} ${mes.chat} \n`);
-            ChatLib.chat(`${mes.time} ${mes.chat}`)
+        if (containsJapaneseByCode(mes.chat) || mes.chat.split("").every((char) => char === "w" || char === "ｗ")) {
+            str += (`${mes.time} ${Translation} \n`);
+            ChatLib.chat(`${mes.time} ${Translation}`)
         } else {
             let plus = `${mes.chat}(${Translation})`;
             str += (`${mes.time} ${plus} \n`);
