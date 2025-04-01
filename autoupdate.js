@@ -1,4 +1,5 @@
 // credit https://github.com/Noamm9/NoammAddons-CT/blob/main/NoammAddons/AutoUpDater.js
+import "./index"
 
 const metadata = JSON.parse(FileLib.read("ChatMi", "metadata.json"));
 const subdata = JSON.parse(FileLib.read("mikan-pi-chat-module-4960d27", "metadata.json"))
@@ -76,6 +77,12 @@ const Update = new Thread(() => {
 })
 
 register("command", () => {
+    FileLib.write(`ChatMi`, "data/data.json", )
+}).setName("mi-test-4")
+
+let item = {}
+
+register("command", () => {
     hash("mikan-pi", "chat-module", "main", (sha) => {
         if (sha) {  // sha をチェックする
             ChatLib.chat(`Commit SHA: ${sha}`);
@@ -83,7 +90,7 @@ register("command", () => {
             ChatLib.chat("SHAの取得に失敗しました");
         }
     });
-}).setName("potato");
+}).setName("mi-test-3");
 
 function hash(user, name, branch1, callback) {
     let url = `https://api.github.com/repos/${user}/${name}/commits/${branch1}`;
@@ -91,6 +98,7 @@ function hash(user, name, branch1, callback) {
     ChatLib.chat(`URL: ${url} 1/4`);
     
     get(url, (error, response) => {
+        console.log("aaaa")
         if (error) {
             ChatLib.chat(`&cエラー: ${error}`);
             callback(null);  // エラーがある場合は null を返す
@@ -100,10 +108,12 @@ function hash(user, name, branch1, callback) {
         try {
             ChatLib.chat(`&aレスポンス: ${response} 2/4`);
             const jsonres = JSON.parse(response)
+            console.log(jsonres)
             let commitSha = jsonres.sha;  // SHAを取得
-
             if (commitSha) {
                 ChatLib.chat(`&b取得したSHA: ${commitSha} 3/4`);
+                item.key = sha 
+                FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
                 callback(commitSha);  // 取得したSHAをcallbackで返す
             } else {
                 ChatLib.chat("&cSHAが見つかりません");
@@ -140,8 +150,9 @@ function get(path, callback) {
                     response.append(line);
                 }
                 reader.close();
-
-                callback(null, response(["sha"]));  // 文字列として渡す
+                console.log(JSON.parse(response))
+                //console.log(response)
+                callback(null, response);  // 文字列として渡す
             } catch (error) {
                 callback(error, null);
             }
