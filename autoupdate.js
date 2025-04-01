@@ -112,7 +112,7 @@ function hash(user, name, branch1, callback) {
             let commitSha = jsonres.sha;  // SHAを取得
             if (commitSha) {
                 ChatLib.chat(`&b取得したSHA: ${commitSha} 3/4`);
-                item.key = sha 
+                item.sha = commitSha 
                 FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
                 callback(commitSha);  // 取得したSHAをcallbackで返す
             } else {
