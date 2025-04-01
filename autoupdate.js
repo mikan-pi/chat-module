@@ -1,11 +1,21 @@
 // credit https://github.com/Noamm9/NoammAddons-CT/blob/main/NoammAddons/AutoUpDater.js
+
+// ファイル写し。
 import "./index"
 
-const metadata = JSON.parse(FileLib.read("ChatMi", "metadata.json"));
-const subdata = JSON.parse(FileLib.read("mikan-pi-chat-module-4960d27", "metadata.json"))
+let old = ""
+let Imnew = ""
 
 register("command", () => {
-    Update.start()
+    old = item.sha
+
+    hash("mikan-pi", "chat-module", "main", (sha) => {
+        if (sha) {  // sha をチェックする
+            Update.start()
+        } else {
+            ChatLib.chat("失敗");
+        }
+    })
 }).setName("tesuto");
 
 const File = Java.type("java.io.File")
@@ -33,26 +43,29 @@ function urlToFile(url, destination, connecttimeout, readtimeout) {
 
 const Update = new Thread(() => {
     try {
-        let old = ""
-        old = metadata.version
-        ChatLib.chat(`${old}`)
+
+        if (old !== Imnew) {
+
+
+        }
+
         urlToFile("https://api.github.com/repos/mikan-pi/chat-module/zipball", `${Config.modulesFolder}/ChatMi.zip`, 1000, 2000)
         ChatLib.chat(`download zip file! 1/5`)
         Thread.sleep(1000)
 
          // 解凍処理
-        FileLib.unzip(`${Config.modulesFolder}/ChatMi.zip`, `${Config.modulesFolder}`)
+        FileLib.unzip(`${Config.modulesFolder}/ChatMi.zip`, `${Config.modulesFolder}/ChatMi`)
         Thread.sleep(1000)
-        let Imnew = ""
-        Imnew = subdata
-        ChatLib.chat(`${Imnew}`)
         ChatLib.chat(`unzip file! 2/5`)
         Thread.sleep(1000)
+        return
         
         if (old !== Imnew) {
+            /*
             FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi`)
             ChatLib.chat(`delete file! 3/5`)
             Thread.sleep(1000)
+            */
         } else {
             FileLib.deleteDirectory(`${Config.modulesFolder}/mikan-pi-chat-module-4960d27`)
             FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`)
@@ -98,7 +111,6 @@ function hash(user, name, branch1, callback) {
     ChatLib.chat(`URL: ${url} 1/4`);
     
     get(url, (error, response) => {
-        console.log("aaaa")
         if (error) {
             ChatLib.chat(`&cエラー: ${error}`);
             callback(null);  // エラーがある場合は null を返す
@@ -110,9 +122,11 @@ function hash(user, name, branch1, callback) {
             const jsonres = JSON.parse(response)
             console.log(jsonres)
             let commitSha = jsonres.sha;  // SHAを取得
+            Imnew = commitSha
             if (commitSha) {
                 ChatLib.chat(`&b取得したSHA: ${commitSha} 3/4`);
-                item.sha = commitSha 
+                item.sha = commitSha
+
                 FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
                 callback(commitSha);  // 取得したSHAをcallbackで返す
             } else {
