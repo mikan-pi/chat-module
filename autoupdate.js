@@ -47,14 +47,14 @@ const Update = new Thread(() => {
         if (old !== Imnew) {
 
 
-        }
+        } 
 
         urlToFile("https://api.github.com/repos/mikan-pi/chat-module/zipball", `${Config.modulesFolder}/ChatMi.zip`, 1000, 2000)
         ChatLib.chat(`download zip file! 1/5`)
         Thread.sleep(1000)
 
          // 解凍処理
-        FileLib.unzip(`${Config.modulesFolder}/ChatMi.zip`, `${Config.modulesFolder}/ChatMi`)
+        FileLib.unzip(`${Config.modulesFolder}/ChatMi.zip`, `${Config.modulesFolder}`)
         Thread.sleep(1000)
         ChatLib.chat(`unzip file! 2/5`)
         Thread.sleep(1000)
@@ -90,7 +90,9 @@ const Update = new Thread(() => {
 })
 
 register("command", () => {
-    FileLib.write(`ChatMi`, "data/data.json", )
+    let t = ""
+    t = FileLib.read(`ChatMi`, "autoupdate.js")
+    ChatLib.chat(`${t}`)
 }).setName("mi-test-4")
 
 let item = {}
