@@ -1,7 +1,7 @@
 {
-    "name": "chatMi",
-    "creator": "Arrow",
-    "description": "wow",
+    "name": "ChatMi",
+    "creator": "Arrow & mikatan",
+    "description": "不便",
     "version": "1.0.0",
     "entry": "autoupdate.js",
     "requires": [
