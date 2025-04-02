@@ -6,6 +6,8 @@ import "./index"
 let old = ""
 let Imnew = ""
 
+let rege = /^mikan-pi-chat-module-\w+$/
+
 register("command", () => {
     old = item.sha
 
@@ -89,39 +91,47 @@ const Update = new Thread(() => {
     } catch (e) {ChatLib.chat(`error! :${e}`)}
 })
 
-function whatFileName() {
+register("command", () => {
+}).setName("mi-test-copy");
+
+function whatfileName() {
     let folder = new File(`${Config.modulesFolder}`);
     let files = folder.listFiles();
-    let rege = /^mikan-pi-chat-module-\w+$/
 
     if (files) {
-        files.forEach(file => {
-            if (rege.test(file.getName())) {
+        for (let file of files){
+            if (file.getName().match(rege)) {
                 // let readme = FileLib.read(file.getName());
                 // FileLib.write("ChatMi", file.getName(), readme);
-                // ChatLib.chat(`${file.getName()}`);
-                // rege = file.getName()
+                ChatLib.chat(`${file.getName()}`);
                 return file.getName()
             }
-        });
+        }
+        return null
+    } else {
+        ChatLib.chat("フォルダが見つかりません");
     }
-
 }
 
 function readfolder(path) {
-    let folder = new File(path)
-    let files = folder.listFiles()
-        if (files) {
-            files.forEach(file => {
-                ChatLib.chat(file.getName()); // ファイル名をチャットに表示
-                return file.getName
-            });
-        }
+    ChatLib.chat(`${path}`)
+    let folder = new File(path);
+    let files = folder.listFiles();
+    let filenames = []
+    if (files) {
+        files.forEach(file => {
+            filenames.push(file.getName())
+            ChatLib.chat(file.getName()); // ファイル名をチャットに表示
+        });
+    }
 }
 
 register("command", () => {
-    readfolder(whatFileName())
-}).setName("mi-test-6")
+    // え～ /はjavascriptにおいて除算演算子なので普通に引数にファイルのpathを入れるとNaNになりますと w
+    let folderPath = Config.modulesFolder + "/" + whatfileName()
+    ChatLib.chat(`${readfolder(folderPath)}`);
+}).setName("mi-test-6");
+
 
 
 let item = {}
