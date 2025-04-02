@@ -16,7 +16,7 @@ register("command", () => {
             ChatLib.chat("失敗");
         }
     })
-}).setName("tesuto");
+}).setName("mi-test-demo");
 
 const File = Java.type("java.io.File")
 const URL = Java.type("java.net.URL")
@@ -89,11 +89,40 @@ const Update = new Thread(() => {
     } catch (e) {ChatLib.chat(`error! :${e}`)}
 })
 
+function whatFileName() {
+    let folder = new File(`${Config.modulesFolder}`);
+    let files = folder.listFiles();
+    let rege = /^mikan-pi-chat-module-\w+$/
+
+    if (files) {
+        files.forEach(file => {
+            if (rege.test(file.getName())) {
+                // let readme = FileLib.read(file.getName());
+                // FileLib.write("ChatMi", file.getName(), readme);
+                // ChatLib.chat(`${file.getName()}`);
+                // rege = file.getName()
+                return file.getName()
+            }
+        });
+    }
+
+}
+
+function readfolder(path) {
+    let folder = new File(path)
+    let files = folder.listFiles()
+        if (files) {
+            files.forEach(file => {
+                ChatLib.chat(file.getName()); // ファイル名をチャットに表示
+                return file.getName
+            });
+        }
+}
+
 register("command", () => {
-    let t = ""
-    t = FileLib.read(`ChatMi`, "autoupdate.js")
-    ChatLib.chat(`${t}`)
-}).setName("mi-test-4")
+    readfolder(whatFileName())
+}).setName("mi-test-6")
+
 
 let item = {}
 
