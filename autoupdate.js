@@ -117,14 +117,29 @@ function readfolder(path) {
     ChatLib.chat(`${path}`)
     let folder = new File(path);
     let files = folder.listFiles();
+    let ignore = {
+        ".git": true,
+        ".gitignore": true,
+        "autoupdate.js": true,
+        "data": true,
+        "image.png": true,
+        "README.MD": true,
+
+    }
     if (files) {
-        let fileNames = files.map(file => file.getName()); // ファイル名の配列を作成
-        ChatLib.chat(`${fileNames.join(", ")}`); // ファイル名を一覧表示
-        return JSON.stringify(fileNames)
+        let fileNames = files.map(file => file.getName()).filter(name => {
+            return !Object.keys(ignore).some(ignorekey => name.includes(ignorekey))
+        })
+        // ChatLib.chat(`${fileNames.join(", ")}`); // ファイル名を一覧表示
+        return fileNames
     } else {
         ChatLib.chat("フォルダが見つかりません");
-        return [];
+        return null
     }
+}
+
+function readfile(module, file) {
+    return FileLib.read(module, file)
 }
 
 function replacefile(module, tofile, content) {
@@ -136,8 +151,13 @@ register("command", () => {
     // え～ /はjavascriptにおいて除算演算子なので普通に引数にファイルのpathを入れるとNaNになりますと w
     let gitMi = Config.modulesFolder + "/" + whatfileName()
     let ChatMi = Config.modulesFolder + "/" + "ChatMi"
-    ChatLib.chat(`${readfolder(ChatMi)}`)
-    ChatLib.chat(`${readfolder(gitMi)}`);
+    let cmi = readfolder(ChatMi)
+    let gmi = readfolder(gitMi)
+    ChatLib.chat(`${cmi}`)
+    // ChatLib.chat(`${gmi}`);
+    let firstfile = cmi[0]
+    let readmi = readfile("ChatMi", `${firstfile}`)
+    ChatLib.chat(`${readmi}`)
     // replacefile("ChatMi", gitMi, )
 }).setName("mi-test-6");
 
