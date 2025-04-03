@@ -266,3 +266,6 @@ register("command", (...args) => {
         tes[pname].messages.shift();
     }
 }).setName("mi-test-2")
+
+
+register("command")
