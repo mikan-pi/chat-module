@@ -103,7 +103,7 @@ function whatfileName() {
             if (file.getName().match(rege)) {
                 // let readme = FileLib.read(file.getName());
                 // FileLib.write("ChatMi", file.getName(), readme);
-                ChatLib.chat(`${file.getName()}`);
+                // ChatLib.chat(`${file.getName()}`);
                 return file.getName()
             }
         }
@@ -114,10 +114,10 @@ function whatfileName() {
 }
 
 function readfolder(path) {
-    ChatLib.chat(`${path}`)
+    ChatLib.chat(`${path}`);
     let folder = new File(path);
     let files = folder.listFiles();
-    let ignore = {
+    let igor = {
         ".git": true,
         ".gitignore": true,
         "autoupdate.js": true,
@@ -125,16 +125,19 @@ function readfolder(path) {
         "image.png": true,
         "README.MD": true,
 
-    }
+    };
+
     if (files) {
-        let fileNames = files.map(file => file.getName()).filter(name => {
-            return !Object.keys(ignore).some(ignorekey => name.includes(ignorekey))
-        })
-        // ChatLib.chat(`${fileNames.join(", ")}`); // ファイル名を一覧表示
-        return fileNames
+        let fileNames = [];
+        for (let file of files) {
+            if (!igor[file.getName()]) { // 除外リストに含まれない場合のみ追加
+                fileNames.push(file.getName());
+            }
+        }
+        return JSON.stringify(fileNames)
     } else {
         ChatLib.chat("フォルダが見つかりません");
-        return null
+        return null;
     }
 }
 
@@ -148,17 +151,22 @@ function replacefile(module, tofile, content) {
 }
 
 register("command", () => {
-    // え～ /はjavascriptにおいて除算演算子なので普通に引数にファイルのpathを入れるとNaNになりますと w
-    let gitMi = Config.modulesFolder + "/" + whatfileName()
-    let ChatMi = Config.modulesFolder + "/" + "ChatMi"
-    let cmi = readfolder(ChatMi)
+    let gitMi = Config.modulesFolder + "/" + whatfileName();
+    let ChatMi = Config.modulesFolder + "/ChatMi";
+    let cmi = readfolder(ChatMi);
     let gmi = readfolder(gitMi)
-    ChatLib.chat(`${cmi}`)
-    // ChatLib.chat(`${gmi}`);
-    let firstfile = cmi[0]
-    let readmi = readfile("ChatMi", `${firstfile}`)
-    ChatLib.chat(`${readmi}`)
-    // replacefile("ChatMi", gitMi, )
+
+    if (gmi) {
+        ChatLib.chat(`[gmi]${gmi}`)
+    } else {
+        ChatLib.chat("[gmi]エラー: フォルダの読み取りに失敗しました。");
+    }
+
+    if (cmi) {
+        ChatLib.chat(`[cmi]${cmi}`)
+    } else {
+        ChatLib.chat("[cmi]エラー: フォルダの読み取りに失敗しました。");
+    }
 }).setName("mi-test-6");
 
 let item = {}
