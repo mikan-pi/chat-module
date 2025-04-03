@@ -153,19 +153,43 @@ function replacefile(module, tofile, content) {
 register("command", () => {
     let gitMi = Config.modulesFolder + "/" + whatfileName();
     let ChatMi = Config.modulesFolder + "/ChatMi";
-    let cmi = readfolder(ChatMi);
-    let gmi = readfolder(gitMi)
+    
+    // console.log("Reading ChatMi folder...");
+    let cmi = readfolder(ChatMi);  // Get file list in ChatMi folder
+    // console.log("Reading gmi folder...");
+    let gmi = readfolder(gitMi);   // Get file list in gmi folder
 
-    if (gmi) {
-        ChatLib.chat(`[gmi]${gmi}`)
-    } else {
-        ChatLib.chat("[gmi]エラー: フォルダの読み取りに失敗しました。");
-    }
+    if (cmi && gmi) {
+        // console.log("Parsing file lists...");
+        let cmiFiles = JSON.parse(cmi);  // Convert ChatMi file names to an array
+        let gmiFiles = JSON.parse(gmi);  // Convert gmi file names to an array
+        // console.log("Parsing completed");
 
-    if (cmi) {
-        ChatLib.chat(`[cmi]${cmi}`)
+        // Process files that exist in both cmi and gmi folders
+        for (let i = 0; i < gmiFiles.length; i++) {
+            let file = gmiFiles[i];
+            // console.log(`Processing: ${file} (${i + 1} / ${gmiFiles.length})`);
+            if (cmiFiles.includes(file)) {
+                // Get content of gmi file
+                let gmiContent = readfile(whatfileName(), file);
+                if (gmiContent) {
+                    // console.log(`Content of ${file} retrieved, starting overwrite`);
+                    // Overwrite file in ChatMi with gmi content
+                    // replacefile("ChatMi", file, gmiContent);
+                    ChatLib.chat(`[cmi] ${file} has been updated.`);
+                } else {
+                    // console.log(`[Error] ${file} is empty or cannot be read.`);
+                    // ChatLib.chat(`[Error] ${file} is empty or cannot be read.`);
+                }
+            } else {
+                // console.log(`${file} does not exist in cmi folder`);
+            }
+        }
+
+        // console.log("Processing completed");
     } else {
-        ChatLib.chat("[cmi]エラー: フォルダの読み取りに失敗しました。");
+        console.log("[cmi/gmi] Error: Failed to read folder.");
+        ChatLib.chat("[cmi/gmi] Error: Failed to read folder.");
     }
 }).setName("mi-test-6");
 
