@@ -117,22 +117,29 @@ function readfolder(path) {
     ChatLib.chat(`${path}`)
     let folder = new File(path);
     let files = folder.listFiles();
-    let filenames = []
     if (files) {
-        files.forEach(file => {
-            filenames.push(file.getName())
-            ChatLib.chat(file.getName()); // ファイル名をチャットに表示
-        });
+        let fileNames = files.map(file => file.getName()); // ファイル名の配列を作成
+        ChatLib.chat(`${fileNames.join(", ")}`); // ファイル名を一覧表示
+        return JSON.stringify(fileNames)
+    } else {
+        ChatLib.chat("フォルダが見つかりません");
+        return [];
     }
+}
+
+function replacefile(module, tofile, content) {
+    let f = FileLib.write(module, tofile, content)
+    return f
 }
 
 register("command", () => {
     // え～ /はjavascriptにおいて除算演算子なので普通に引数にファイルのpathを入れるとNaNになりますと w
-    let folderPath = Config.modulesFolder + "/" + whatfileName()
-    ChatLib.chat(`${readfolder(folderPath)}`);
+    let gitMi = Config.modulesFolder + "/" + whatfileName()
+    let ChatMi = Config.modulesFolder + "/" + "ChatMi"
+    ChatLib.chat(`${readfolder(ChatMi)}`)
+    ChatLib.chat(`${readfolder(gitMi)}`);
+    // replacefile("ChatMi", gitMi, )
 }).setName("mi-test-6");
-
-
 
 let item = {}
 
