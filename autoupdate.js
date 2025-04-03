@@ -145,11 +145,6 @@ function readfile(module, file) {
     return FileLib.read(module, file)
 }
 
-function replacefile(module, tofile, content) {
-    let f = FileLib.write(module, tofile, content)
-    return f
-}
-
 register("command", () => {
     let gitMi = Config.modulesFolder + "/" + whatfileName();
     let ChatMi = Config.modulesFolder + "/ChatMi";
