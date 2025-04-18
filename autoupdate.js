@@ -129,9 +129,15 @@ function replaceallfile() {
                 if (gmiContent) {
                     // console.log(`Content of ${file} retrieved, starting overwrite`);
                     // Overwrite file in ChatMi with gmi content
-                    replacefile("ChatMi", file, gmiContent);
-                    FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
-                    ChatLib.chat(`[cmi] ${file} has been updated.`);
+                    try {
+                        replacefile("ChatMi", file, gmiContent);
+                        FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
+                        FileLib.delete("config/ChatTriggers/modules/ChatMi.zip")
+                        FileLib.delete(gitMi)
+                    } catch (e) {
+                        ChatLib.chat(`${e}`)
+                    }
+
                 }}}}
 }
 
