@@ -45,7 +45,7 @@ const Update = new Thread(() => {
         Thread.sleep(1000)
         ChatLib.chat(`unzip file! 2/5`)
         Thread.sleep(1000)
-        hash("mikan-pi", "chat-module", "main", (sha) => {
+        hash("mikan-pi", "chat-module", "1-feature-auto-update", (sha) => {
             if (sha) {  // sha をチェックする
                 if (sha !== JSON.parse(readfile("ChatMi", "data/data.json")).sha) {
                     replaceallfile()
