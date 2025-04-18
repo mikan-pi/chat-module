@@ -132,7 +132,7 @@ function replaceallfile() {
                     try {
                         replacefile("ChatMi", file, gmiContent);
                         FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
-                        FileLib.deleteDirectory(`${Config.modulesFolder}/mikan-pi-chat-module-4960d27`)
+                        FileLib.deleteDirectory(gitMi)
                         FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`)
                     } catch (e) {
                         ChatLib.chat(`${e}`)
