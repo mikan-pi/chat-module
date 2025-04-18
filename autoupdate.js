@@ -33,7 +33,7 @@ function urlToFile(url, destination, connecttimeout, readtimeout) {
 const Update = new Thread(() => {
     try {
 
-        urlToFile("https://api.github.com/repos/mikan-pi/chat-module/zipball", `${Config.modulesFolder}/ChatMi.zip`, 1000, 2000)
+        urlToFile("https://api.github.com/repos/mikan-pi/chat-module/zipball/1-feature-auto-update", `${Config.modulesFolder}/ChatMi.zip`, 1000, 2000)
         ChatLib.chat(`download zip file! 1/5`)
         Thread.sleep(1000)
 
@@ -53,9 +53,6 @@ const Update = new Thread(() => {
         }); 
     } catch (e) {ChatLib.chat(`error! :${e}`)}
 })
-
-register("command", () => {
-}).setName("mi-test-copy");
 
 function whatfileName() {
     let folder = new File(`${Config.modulesFolder}`);
