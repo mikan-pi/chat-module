@@ -20,6 +20,10 @@ register("command", () => {
     })
 }).setName("mi-test-demo");
 
+register("command", () => {
+    ChatLib.chat(`${readfile("ChatMi", "igor.json")}`)
+}).setName("mi-test-9")
+
 const File = Java.type("java.io.File")
 const URL = Java.type("java.net.URL")
 const PrintStream = Java.type("java.io.PrintStream")
@@ -60,6 +64,7 @@ const Update = new Thread(() => {
         Thread.sleep(1000)
         ChatLib.chat(`unzip file! 2/5`)
         Thread.sleep(1000)
+        // 下の処理は使わないのでreturn
         return
         
         if (old !== Imnew) {
@@ -97,7 +102,6 @@ register("command", () => {
 function whatfileName() {
     let folder = new File(`${Config.modulesFolder}`);
     let files = folder.listFiles();
-
     if (files) {
         for (let file of files){
             if (file.getName().match(rege)) {
@@ -117,20 +121,12 @@ function readfolder(path) {
     ChatLib.chat(`${path}`);
     let folder = new File(path);
     let files = folder.listFiles();
-    let igor = {
-        ".git": true,
-        ".gitignore": true,
-        "autoupdate.js": true,
-        "data": true,
-        "image.png": true,
-        "README.MD": true,
-
-    };
+    let igorlist = readfile(whatfileName(), "igor.json")
 
     if (files) {
         let fileNames = [];
         for (let file of files) {
-            if (!igor[file.getName()]) { // 除外リストに含まれない場合のみ追加
+            if (!igorlist[file.getName()]) { // 除外リストに含まれない場合のみ追加
                 fileNames.push(file.getName());
             }
         }
@@ -175,7 +171,7 @@ register("command", () => {
                 if (gmiContent) {
                     // console.log(`Content of ${file} retrieved, starting overwrite`);
                     // Overwrite file in ChatMi with gmi content
-                    // replacefile("ChatMi", file, gmiContent);
+                    replacefile("ChatMi", file, gmiContent);
                     ChatLib.chat(`[cmi] ${file} has been updated.`);
                 } else {
                     // console.log(`[Error] ${file} is empty or cannot be read.`);

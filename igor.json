@@ -1,0 +1,8 @@
+{
+    ".git": true,
+    ".gitignore": true,
+    "autoupdate.js": true,
+    "data": true,
+    "image.png": true,
+    "README.MD": true
+}
