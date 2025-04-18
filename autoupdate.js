@@ -4,10 +4,6 @@ register("Gameload", () => {
     Update.start()
 })
 
-// 
-let gitMi = Config.modulesFolder + "/" + whatfileName();
-let ChatMi = Config.modulesFolder + "/ChatMi";
-
 import "./index"
 
 let item = {}
@@ -54,6 +50,7 @@ const Update = new Thread(() => {
                 if (sha !== JSON.parse(readfile("ChatMi", "data/data.json")).sha) {
                     replaceallfile()
                 } else {
+                    let gitMi = Config.modulesFolder + "/" + whatfileName();
                     ChatLib.chat(`このバージョンは最新版です！`)
                     FileLib.deleteDirectory(gitMi)
                     FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`)
@@ -111,6 +108,8 @@ function replacefile(module, tofile, content) {
 }
 
 function replaceallfile() {
+    let gitMi = Config.modulesFolder + "/" + whatfileName();
+    let ChatMi = Config.modulesFolder + "/ChatMi";
     // console.log("Reading ChatMi folder...");
     let cmi = readfolder(ChatMi);  // Get file list in ChatMi folder
     // console.log("Reading gmi folder...");
