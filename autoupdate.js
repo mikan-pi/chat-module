@@ -1,9 +1,9 @@
 // credit https://github.com/Noamm9/NoammAddons-CT/blob/main/NoammAddons/AutoUpDater.js
-/*
+
 register("Gameload", () => {
     Update.start()
 })
-*/
+
 import "./index"
 
 let item = {}
@@ -118,40 +118,36 @@ function replacefile(module, tofile, content) {
 function replaceallfile() {
     let gitMi = Config.modulesFolder + "/" + whatfileName();
     let ChatMi = Config.modulesFolder + "/ChatMi";
-    // console.log("Reading ChatMi folder...");
-    let cmi = readfolder(ChatMi);  // Get file list in ChatMi folder
-    // console.log("Reading gmi folder...");
-    let gmi = readfolder(gitMi);   // Get file list in gmi folder
+    let cmi = readfolder(ChatMi);
+    let gmi = readfolder(gitMi);
 
     if (cmi && gmi) {
-        // console.log("Parsing file lists...");
-        let cmiFiles = JSON.parse(cmi);  // Convert ChatMi file names to an array
-        let gmiFiles = JSON.parse(gmi);  // Convert gmi file names to an array
-        // console.log("Parsing completed");
+        let cmiFiles = JSON.parse(cmi);
+        let gmiFiles = JSON.parse(gmi);
 
-        // Process files that exist in both cmi and gmi folders
         for (let i = 0; i < gmiFiles.length; i++) {
             let file = gmiFiles[i];
-            // console.log(`Processing: ${file} (${i + 1} / ${gmiFiles.length})`);
+
             if (cmiFiles.includes(file)) {
-                // Get content of gmi file
                 let gmiContent = readfile(whatfileName(), file);
-                if (gmiContent) {
-                    // console.log(`Content of ${file} retrieved, starting overwrite`);
-                    // Overwrite file in ChatMi with gmi content
+                let cmiContent = readfile("ChatMi", file);
+
+                // 内容が異なる場合のみ replacefile を実行
+                if (gmiContent && gmiContent !== cmiContent) {
                     try {
                         replacefile("ChatMi", file, gmiContent);
-                        FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
-                        FileLib.deleteDirectory(gitMi)
-                        FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`)
                     } catch (e) {
-                        ChatLib.chat(`${e}`)
-                        // エラーが発生したら消去
-                        FileLib.deleteDirectory(gitMi)
-                        FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`)
+                        ChatLib.chat(`${e}`);
                     }
+                }
+            }
+        }
 
-                }}}}
+        // 処理後に削除・保存
+        FileLib.deleteDirectory(gitMi);
+        FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`);
+        FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item));
+    }
 }
 
 
