@@ -1,9 +1,9 @@
 // credit https://github.com/Noamm9/NoammAddons-CT/blob/main/NoammAddons/AutoUpDater.js
-
+/*
 register("Gameload", () => {
     Update.start()
 })
-
+*/
 import "./index"
 
 let item = {}
@@ -79,10 +79,16 @@ function whatfileName() {
 }
 
 function readfolder(path) {
-    ChatLib.chat(`${path}`);
     let folder = new File(path);
     let files = folder.listFiles();
-    let igorlist = readfile(whatfileName(), "igor.json")
+
+    let basePath = Config.modulesFolder + "/";
+    let relativePath = path.replace(basePath, "");
+    ChatLib.chat(`${relativePath}`); // ← こちらに変更
+
+    let igorlist = JSON.parse(readfile(relativePath, "igor.json"))
+
+    console.log(igorlist)
 
     if (files) {
         let fileNames = [];
@@ -98,6 +104,7 @@ function readfolder(path) {
     }
 }
 
+
 function readfile(module, file) {
     return FileLib.read(module, file)
 }
@@ -106,6 +113,7 @@ function replacefile(module, tofile, content) {
     let f = FileLib.write(module, tofile, content)
     return f
 }
+
 
 function replaceallfile() {
     let gitMi = Config.modulesFolder + "/" + whatfileName();
@@ -146,6 +154,7 @@ function replaceallfile() {
                 }}}}
 }
 
+
 function hash(user, name, branch1, callback) {
     let url = `https://api.github.com/repos/${user}/${name}/commits/${branch1}`;
     
@@ -174,11 +183,12 @@ function hash(user, name, branch1, callback) {
                 callback(null);
             }
         } catch (e) {
-            ChatLib.chat(`&cJSON解析エラー: ${e}`);
+            ChatLib.chat(`177行目です。&cJSON解析エラー: ${e}`);
             callback(null);
         }
     });
 }
+
 
 function get(path, callback) {
     var Runnable = Java.type("java.lang.Runnable");
@@ -217,12 +227,8 @@ function get(path, callback) {
 }
 
 
-
-
-
 // コマンド
 
-// mi-test-demo
 // mi-test-demo
 register("command", () => {
     ChatLib.chat(`${JSON.parse(readfile("ChatMi", "data/data.json")).sha}`)
@@ -231,7 +237,9 @@ register("command", () => {
 
 // mi-test-9
 register("command", () => {
-    ChatLib.chat(`${readfile("ChatMi", "igor.json")}`)
+    let gitMi = Config.modulesFolder + "/" + whatfileName();
+    let ChatMi = Config.modulesFolder + "/ChatMi";
+    ChatLib.chat(`cmi: ${readfolder(ChatMi)}`)
 }).setName("mi-test-9")
 
 // mi-test-6

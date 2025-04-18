@@ -233,6 +233,7 @@ register("command", () => {
     ChatLib.chat(`test: ${jpchat("あwaa")}`)
     ChatLib.chat(`test: ${jpchat("dameppoi")}`)
     ChatLib.chat(`test: ${jpchat("dameppoi")}`)
+    ChatLib.chat(`test: mqdnqwod`)
 }).setName("mi-test-1");
 
 register("command", (...args) => {
