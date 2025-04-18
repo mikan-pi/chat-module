@@ -1,9 +1,8 @@
 // credit https://github.com/Noamm9/NoammAddons-CT/blob/main/NoammAddons/AutoUpDater.js
-/*
+
 register("Gameload", () => {
     Update.start()
 })
-*/
 
 import "./index"
 // sha一時保存用
