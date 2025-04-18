@@ -1,4 +1,5 @@
 {
+    "$comment": "trueにすると無視",
     ".git": true,
     ".gitignore": true,
     "autoupdate.js": true,
