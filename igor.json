@@ -1,8 +1,11 @@
 {
-    ".git": true,
-    ".gitignore": true,
-    "autoupdate.js": true,
-    "data": true,
-    "image.png": true,
-    "README.MD": true
+    ".git": false,
+    ".gitignore": false,
+    "autoupdate.js": false,
+    "data": false,
+    "image.png": false,
+    "README.MD": false,
+    "ro_maji.js": true,
+    "index.js": true,
+    "metadata.json": true
 }
