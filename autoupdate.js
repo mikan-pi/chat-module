@@ -147,6 +147,7 @@ function replaceallfile() {
         FileLib.deleteDirectory(gitMi);
         FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`);
         FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item));
+        ChatLib.chat("&0[&dChat&5Mi&0] &fupdateが完了しました!")
     }
 }
 
@@ -154,10 +155,13 @@ function replaceallfile() {
 function hash(user, name, branch1, callback) {
     let url = `https://api.github.com/repos/${user}/${name}/commits/${branch1}`;
     
-    // ChatLib.chat(`URL: ${url} 1/4`);
+    ChatLib.chat(`URL: ${url} 1/4`);
     
     get(url, (error, response) => {
         if (error) {
+            let gitMi = Config.modulesFolder + "/" + whatfileName();
+            FileLib.deleteDirectory(gitMi);
+            FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`);
             ChatLib.chat(`&cエラー: ${error}`);
             callback(null);  // エラーがある場合は null を返す
             return;
@@ -171,7 +175,7 @@ function hash(user, name, branch1, callback) {
             if (commitSha) {
                 // ChatLib.chat(`&b取得したSHA: ${commitSha} 3/4`);
                 item.sha = commitSha
-
+                console.log(commitSha)
                 // FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
                 callback(commitSha);  // 取得したSHAをcallbackで返す
             } else {
@@ -210,10 +214,12 @@ function get(path, callback) {
                     response.append(line);
                 }
                 reader.close();
-                console.log(JSON.parse(response))
+                //console.log(JSON.parse(response))
                 //console.log(response)
-                callback(null, response);  // 文字列として渡す
+                //console.log(JSON.stringify(response))
+                callback(null, JSON.stringify(response));  // 文字列として渡す
             } catch (error) {
+                console.log(error)
                 callback(error, null);
             }
         }
