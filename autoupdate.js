@@ -136,7 +136,6 @@ function replaceallfile() {
                         FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`)
                     } catch (e) {
                         ChatLib.chat(`${e}`)
-                        ChatLib
                     }
 
                 }}}}
