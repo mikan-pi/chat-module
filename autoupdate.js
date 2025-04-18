@@ -2,27 +2,10 @@
 
 // ファイル写し。
 import "./index"
-
-let old = ""
-let Imnew = ""
+// sha一時保存用
+let item = {}
 
 let rege = /^mikan-pi-chat-module-\w+$/
-
-register("command", () => {
-    old = item.sha
-
-    hash("mikan-pi", "chat-module", "main", (sha) => {
-        if (sha) {  // sha をチェックする
-            Update.start()
-        } else {
-            ChatLib.chat("失敗");
-        }
-    })
-}).setName("mi-test-demo");
-
-register("command", () => {
-    ChatLib.chat(`${readfile("ChatMi", "igor.json")}`)
-}).setName("mi-test-9")
 
 const File = Java.type("java.io.File")
 const URL = Java.type("java.net.URL")
@@ -50,11 +33,6 @@ function urlToFile(url, destination, connecttimeout, readtimeout) {
 const Update = new Thread(() => {
     try {
 
-        if (old !== Imnew) {
-
-
-        } 
-
         urlToFile("https://api.github.com/repos/mikan-pi/chat-module/zipball", `${Config.modulesFolder}/ChatMi.zip`, 1000, 2000)
         ChatLib.chat(`download zip file! 1/5`)
         Thread.sleep(1000)
@@ -64,35 +42,15 @@ const Update = new Thread(() => {
         Thread.sleep(1000)
         ChatLib.chat(`unzip file! 2/5`)
         Thread.sleep(1000)
-        // 下の処理は使わないのでreturn
-        return
-        
-        if (old !== Imnew) {
-            /*
-            FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi`)
-            ChatLib.chat(`delete file! 3/5`)
-            Thread.sleep(1000)
-            */
-        } else {
-            FileLib.deleteDirectory(`${Config.modulesFolder}/mikan-pi-chat-module-4960d27`)
-            FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`)
-            ChatLib.chat(`現在のChatMiのバージョンは最新版です。`)
-            Thread.sleep(1000)
-            return
-        }
-
-        const unzippedDir = new File(`${Config.modulesFolder}/mikan-pi-chat-module-4960d27`) // 解凍したらよくわからん名前になる。
-        const newDir = new File(`${Config.modulesFolder}/ChatMi`)
-        unzippedDir.renameTo(newDir)
-        ChatLib.chat(`rename directory! 4/5`)
-        Thread.sleep(1000)
-
-        FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`)
-        ChatLib.chat(`delete zip file! "/ct load" 5/5`)
-        Thread.sleep(1000)
-        ChatLib.command("ct load", true)
-        
-        
+        hash("mikan-pi", "chat-module", "main", (sha) => {
+            if (sha) {  // sha をチェックする
+                if (sha !== original) {
+                    replaceallfile()
+                } else {
+                    ChatLib.chat(`このバージョンは最新版です！`)
+                }
+            }
+        }); 
     } catch (e) {ChatLib.chat(`error! :${e}`)}
 })
 
@@ -146,7 +104,7 @@ function replacefile(module, tofile, content) {
     return f
 }
 
-register("command", () => {
+function replaceallfile() {
     let gitMi = Config.modulesFolder + "/" + whatfileName();
     let ChatMi = Config.modulesFolder + "/ChatMi";
     
@@ -172,34 +130,10 @@ register("command", () => {
                     // console.log(`Content of ${file} retrieved, starting overwrite`);
                     // Overwrite file in ChatMi with gmi content
                     replacefile("ChatMi", file, gmiContent);
+                    FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
                     ChatLib.chat(`[cmi] ${file} has been updated.`);
-                } else {
-                    // console.log(`[Error] ${file} is empty or cannot be read.`);
-                    // ChatLib.chat(`[Error] ${file} is empty or cannot be read.`);
-                }
-            } else {
-                // console.log(`${file} does not exist in cmi folder`);
-            }
-        }
-
-        // console.log("Processing completed");
-    } else {
-        console.log("[cmi/gmi] Error: Failed to read folder.");
-        ChatLib.chat("[cmi/gmi] Error: Failed to read folder.");
-    }
-}).setName("mi-test-6");
-
-let item = {}
-
-register("command", () => {
-    hash("mikan-pi", "chat-module", "main", (sha) => {
-        if (sha) {  // sha をチェックする
-            ChatLib.chat(`Commit SHA: ${sha}`);
-        } else {
-            ChatLib.chat("SHAの取得に失敗しました");
-        }
-    });
-}).setName("mi-test-3");
+                }}}}
+}
 
 function hash(user, name, branch1, callback) {
     let url = `https://api.github.com/repos/${user}/${name}/commits/${branch1}`;
@@ -214,16 +148,15 @@ function hash(user, name, branch1, callback) {
         }
 
         try {
-            ChatLib.chat(`&aレスポンス: ${response} 2/4`);
+            // ChatLib.chat(`&aレスポンス: ${response} 2/4`);
             const jsonres = JSON.parse(response)
-            console.log(jsonres)
+            console.log(jsonres.sha)
             let commitSha = jsonres.sha;  // SHAを取得
-            Imnew = commitSha
             if (commitSha) {
-                ChatLib.chat(`&b取得したSHA: ${commitSha} 3/4`);
+                // ChatLib.chat(`&b取得したSHA: ${commitSha} 3/4`);
                 item.sha = commitSha
 
-                FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
+                // FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item))
                 callback(commitSha);  // 取得したSHAをcallbackで返す
             } else {
                 ChatLib.chat("&cSHAが見つかりません");
@@ -271,3 +204,41 @@ function get(path, callback) {
 
     new Thread(task).start(); // 別スレッドで実行
 }
+
+
+
+
+
+// コマンド
+
+// mi-test-demo
+register("command", () => {
+    old = item.sha
+
+    hash("mikan-pi", "chat-module", "main", (sha) => {
+        if (sha) {  // sha をチェックする
+            Update.start()
+        } else {
+            ChatLib.chat("失敗");
+        }
+    })
+}).setName("mi-test-demo");
+
+// mi-test-9
+register("command", () => {
+    ChatLib.chat(`${readfile("ChatMi", "igor.json")}`)
+}).setName("mi-test-9")
+
+// mi-test-6
+register("command", () => {
+    replaceallfile()
+}).setName("mi-test-6");
+
+// mi-test-3
+register("command", () => {
+    hash("mikan-pi", "chat-module", "main", (sha) => {
+        if (sha) {  // sha をチェックする
+            ChatLib.chat(`Commit SHA: ${sha}`);
+        }
+    });
+}).setName("mi-test-3");
