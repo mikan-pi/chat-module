@@ -5,7 +5,7 @@ register("Gameload", () => {
 })
 
 import "./index"
-// sha一時保存用
+
 let item = {}
 
 let rege = /^mikan-pi-chat-module-\w+$/
