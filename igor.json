@@ -5,7 +5,7 @@
     "data": false,
     "image.png": false,
     "README.MD": false,
-    "ro_maji.js": true,
+    "ro_maji.js": false,
     "index.js": true,
     "metadata.json": true,
     "igor.json": true
