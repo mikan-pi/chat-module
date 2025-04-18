@@ -37,13 +37,13 @@ const Update = new Thread(() => {
     try {
 
         urlToFile("https://api.github.com/repos/mikan-pi/chat-module/zipball/1-feature-auto-update", `${Config.modulesFolder}/ChatMi.zip`, 1000, 2000)
-        ChatLib.chat(`download zip file! 1/5`)
+        // ChatLib.chat(`download zip file! 1/5`)
         Thread.sleep(1000)
 
          // 解凍処理
         FileLib.unzip(`${Config.modulesFolder}/ChatMi.zip`, `${Config.modulesFolder}`)
         Thread.sleep(1000)
-        ChatLib.chat(`unzip file! 2/5`)
+        // ChatLib.chat(`unzip file! 2/5`)
         Thread.sleep(1000)
         hash("mikan-pi", "chat-module", "1-feature-auto-update", (sha) => {
             if (sha) {  // sha をチェックする
@@ -84,11 +84,11 @@ function readfolder(path) {
 
     let basePath = Config.modulesFolder + "/";
     let relativePath = path.replace(basePath, "");
-    ChatLib.chat(`${relativePath}`); // ← こちらに変更
+    // ChatLib.chat(`${relativePath}`);
 
     let igorlist = JSON.parse(readfile(relativePath, "igor.json"))
 
-    console.log(igorlist)
+    // console.log(igorlist)
 
     if (files) {
         let fileNames = [];
@@ -137,7 +137,7 @@ function replaceallfile() {
                     try {
                         replacefile("ChatMi", file, gmiContent);
                     } catch (e) {
-                        ChatLib.chat(`${e}`);
+                        ChatLib.chat(`140行目です。${e}`);
                     }
                 }
             }
@@ -154,7 +154,7 @@ function replaceallfile() {
 function hash(user, name, branch1, callback) {
     let url = `https://api.github.com/repos/${user}/${name}/commits/${branch1}`;
     
-    ChatLib.chat(`URL: ${url} 1/4`);
+    // ChatLib.chat(`URL: ${url} 1/4`);
     
     get(url, (error, response) => {
         if (error) {
