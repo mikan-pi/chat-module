@@ -7,5 +7,6 @@
     "README.MD": false,
     "ro_maji.js": true,
     "index.js": true,
-    "metadata.json": true
+    "metadata.json": true,
+    "igor.json": true
 }

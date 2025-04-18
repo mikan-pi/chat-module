@@ -1,8 +1,6 @@
 // credit https://github.com/Noamm9/NoammAddons-CT/blob/main/NoammAddons/AutoUpDater.js
 
-register("Gameload", () => {
-    Update.start()
-})
+// ファイル写し。
 import "./index"
 // sha一時保存用
 let item = {}
@@ -46,7 +44,7 @@ const Update = new Thread(() => {
         Thread.sleep(1000)
         hash("mikan-pi", "chat-module", "main", (sha) => {
             if (sha) {  // sha をチェックする
-                if (sha !== readfile("ChatMi", "data/data.json".sha)) {
+                if (sha !== original) {
                     replaceallfile()
                 } else {
                     ChatLib.chat(`このバージョンは最新版です！`)
