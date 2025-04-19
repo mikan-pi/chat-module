@@ -1,8 +1,10 @@
 // credit https://github.com/Noamm9/NoammAddons-CT/blob/main/NoammAddons/AutoUpDater.js
 
-register("Gameload", () => {
+// gitのとこのコードが一致してるとsyntaxerrorが起きるっぽい..?
+
+register("command", () => {
     Update.start()
-})
+}).setName("ChatMi")
 
 import "./index"
 
