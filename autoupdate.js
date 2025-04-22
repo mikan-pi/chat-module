@@ -3,7 +3,7 @@
 // gitのとこのコードが一致してるとsyntaxerrorが起きるっぽい..?
 
 register("gameload", () => {
-    ChatLib.chat("tesuto")
+    ChatLib.chat(`${data_hash_getsha}`)
 })
 
 register("command", () => {
@@ -62,16 +62,6 @@ const Update = new Thread(() => {
     } catch (e) {ChatLib.chat(`error! :${e}`)}
 })
 
-function data_hash_getsha() {
-    hash("mikan-pi", "chat-module", "1-feature-auto-update", (sha) => {
-        if (sha) {  // sha をチェックする
-            if (sha !== JSON.parse(readfile("ChatMi", "data/data.json")).sha) {
-                return true
-            } else {
-                return false
-            }
-        }})
-}
 
 function whatfileName() {
     let folder = new File(`${Config.modulesFolder}`);
