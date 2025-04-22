@@ -2,21 +2,20 @@
 
 // gitのとこのコードが一致してるとsyntaxerrorが起きるっぽい..?
 
+const prefix = "&0[&dChat&5Mi&0]&f"
+
 register("gameload", () => {
     hash("mikan-pi", "chat-module", "1-feature-auto-update", (sha) => {
         if (sha) {  // sha をチェックする
             if (sha !== JSON.parse(readfile("ChatMi", "data/data.json")).sha) {
-                const mes = "アップデートがあります。"
+                const mes = `${prefix} アップデートがあります。`
                 //ChatLib.chat(`${mes}`)
-                new TextComponent(mes).setClick("run_command", "/ChatMi").chat()
-            } else {
-                ChatLib.chat(`最新の状態です。`)
+                new TextComponent(mes).setClick("run_command", "/ChatMi").setHover("show_text", `&bクリックしてアップデートして下さい！`).chat()
             }
         }})
 })
 
 register("command", () => {
-    ChatLib.chat("updatestart!")
     Update.start()
 }).setName("ChatMi")
 
@@ -60,12 +59,12 @@ const Update = new Thread(() => {
                     FileLib.unzip(`${Config.modulesFolder}/ChatMi.zip`, `${Config.modulesFolder}`)
                     Thread.sleep(1000)
                     replaceallfile()
-                } else {
+                }/* else {
                     // let gitMi = Config.modulesFolder + "/" + whatfileName();
                     ChatLib.chat(`このバージョンは最新版です！`)
                     // FileLib.deleteDirectory(gitMi)
                     // FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`)
-                }
+                }*/
             }
         }); 
     } catch (e) {ChatLib.chat(`error! :${e}`)}
@@ -86,7 +85,7 @@ function whatfileName() {
         }
         return null
     } else {
-        ChatLib.chat("フォルダが見つかりません");
+        ChatLib.chat(`${prefix} フォルダが見つかりません`);
     }
 }
 
@@ -111,7 +110,7 @@ function readfolder(path) {
         }
         return JSON.stringify(fileNames)
     } else {
-        ChatLib.chat("フォルダが見つかりません");
+        ChatLib.chat(`${prefix} フォルダが見つかりません`);
         return null;
     }
 }
@@ -159,7 +158,7 @@ function replaceallfile() {
         FileLib.deleteDirectory(gitMi);
         FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`);
         FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item));
-        ChatLib.chat("&0[&dChat&5Mi&0] &fupdateが完了しました!")
+        ChatLib.chat(`${prefix} &fupdateが完了しました!`)
     }
 }
 
@@ -167,11 +166,11 @@ function replaceallfile() {
 function hash(user, name, branch1, callback) {
     let url = `https://api.github.com/repos/${user}/${name}/commits/${branch1}`;
     
-    ChatLib.chat(`&b[ChatMi] GitHubからコミットSHAを取得中...`);
+    // ChatLib.chat(`${prefix} GitHubからコミットSHAを取得中...`);
     
     get(url, (error, response) => {
         if (error) {
-            ChatLib.chat(`&c[ChatMi] リクエストエラー: ${error}`);
+            ChatLib.chat(`${prefix} リクエストエラー: ${error}`);
             callback(null);
             return;
         }
@@ -180,15 +179,15 @@ function hash(user, name, branch1, callback) {
             const jsonres = JSON.parse(response)
             let commitSha = jsonres.sha;
             if (commitSha) {
-                ChatLib.chat(`&a[ChatMi] 取得したSHA: ${commitSha}`);
+                // ChatLib.chat(`${prefix} 取得したSHA: ${commitSha}`);
                 item.sha = commitSha;
                 callback(commitSha);
             } else {
-                ChatLib.chat("&c[ChatMi] SHAが見つかりません");
+                ChatLib.chat(`${prefix} SHAが見つかりません`);
                 callback(null);
             }
         } catch (e) {
-            ChatLib.chat(`&c[ChatMi] JSON解析エラー: ${e}`);
+            ChatLib.chat(`${prefix} JSON解析エラー: ${e}`);
             callback(null);
         }
     });
