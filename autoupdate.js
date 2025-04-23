@@ -16,6 +16,7 @@ register("gameload", () => {
 })
 
 register("command", () => {
+    ChatLib.chat(`${prefix} moduleのアップデートを開始します。`)
     Update.start()
 }).setName("ChatMi")
 
@@ -158,7 +159,7 @@ function replaceallfile() {
         FileLib.deleteDirectory(gitMi);
         FileLib.deleteDirectory(`${Config.modulesFolder}/ChatMi.zip`);
         FileLib.write(`ChatMi`, "data/data.json", JSON.stringify(item));
-        ChatLib.chat(`${prefix} &fupdateが完了しました!`)
+        ChatLib.chat(`${prefix} &fアップデートが完了しました!`)
     }
 }
 
