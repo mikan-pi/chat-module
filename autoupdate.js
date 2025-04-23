@@ -166,6 +166,7 @@ function replaceallfile() {
 
 function hash(user, name, branch1, callback) {
     let url = `https://api.github.com/repos/${user}/${name}/commits/${branch1}`;
+    // ChatLib.command(`ct copy ${url}`, true)
     
     // ChatLib.chat(`${prefix} GitHubからコミットSHAを取得中...`);
     
@@ -178,6 +179,8 @@ function hash(user, name, branch1, callback) {
 
         try {
             const jsonres = JSON.parse(response)
+            // let commitMessage = jsonres.commit.message;
+            // ChatLib.chat(`${commitMessage}`)
             let commitSha = jsonres.sha;
             if (commitSha) {
                 // ChatLib.chat(`${prefix} 取得したSHA: ${commitSha}`);
